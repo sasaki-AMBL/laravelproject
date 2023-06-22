@@ -9,11 +9,19 @@
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+<<<<<<< HEAD
 
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>    </head>
+=======
+        <!-- Styles -->
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <!-- Scripts -->
+        <script src="{{ asset('js/app.js') }}" defer></script>
+    </head>
+>>>>>>> ea3ed49e25008763e3801c8d09399744a9598373
     <body>
         <div class="font-sans text-gray-900 antialiased">
             {{ $slot }}
