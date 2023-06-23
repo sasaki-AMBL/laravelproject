@@ -1,0 +1,16 @@
+git branch branch名	branchを作る
+
+git switch branch名
+
+git add .
+git commit -m 'message'
+
+git push origin branch名
+プルリクエスト＆マージ
+自分のブランチでgit pull origin master	自分のブランチにマスターブランチをプル
+
+作業サイクル
+自分のブランチに移動
+作業をadd & commit $ git push origin 自分のブランチ
+pullリクエストとマージ
+自分のブランチでgit pull origin master
