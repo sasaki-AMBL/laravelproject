@@ -17,6 +17,10 @@
                     <form action="{{ route('owner.update', $product->id) }}" method="post">
                     @csrf
                         <div>
+                            <label for="image">商品画像</label>
+                            <input id="image" type="file" name="image">
+                        </div>
+                        <div>
                             <label for="name">商品名</label>:{{ $product->name }}
                         </div>
                         <div>
