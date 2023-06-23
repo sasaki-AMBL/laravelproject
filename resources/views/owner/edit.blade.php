@@ -17,8 +17,7 @@
                     <form action="{{ route('owner.update', $product->id) }}" method="post">
                     @csrf
                         <div>
-                            <label for="name">商品名</label>
-                            <input type="text" id="name" name="name" value="{{ $product->name }}">
+                            <label for="name">商品名</label>:{{ $product->name }}
                         </div>
                         <div>
                             <label for="price">価格</label>
