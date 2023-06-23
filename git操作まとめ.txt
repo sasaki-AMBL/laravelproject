@@ -15,6 +15,7 @@ git push origin branch名
 pullリクエストとマージ
 自分のブランチでgit pull origin master
 
-強制的にプルする方法
+ブランチの内容をそのままコピーする方法
+
 git fetch origin master
 git reset --hard origin/master
