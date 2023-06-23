@@ -11,13 +11,11 @@
                 <div class="p-6 text-gray-900">
                     <div class="mb-8">
                     </div>
-                    @foreach($products as $product)
-                    画像：{{ optional($product)->image }}
-                    商品名: {{ optional($product)->name }}
-                    価格: {{ optional($product)->price }}
-                    カテゴリー: {{ optional($product)->category_id }}
+                    画像：{{ optional($products)->image }}
+                    商品名: {{ ($products)->name }}
+                    価格: {{ optional($products)->price }}
+                    カテゴリー: {{ optional($products)->category_id }}
                     <br><br>
-                  @endforeach
               </div>
           </div>
       </div>
