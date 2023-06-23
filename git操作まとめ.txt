@@ -14,3 +14,8 @@ git push origin branch名
 作業をadd & commit $ git push origin 自分のブランチ
 pullリクエストとマージ
 自分のブランチでgit pull origin master
+
+ブランチの内容をそのままコピーする方法
+
+git fetch origin master
+git reset --hard origin/master
