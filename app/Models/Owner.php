@@ -8,10 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Owner extends Authenticatable
 {
     use HasFactory;
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
     protected $fillable = [
         'name',
         'email',
         'password',
     ];
+
 
 }

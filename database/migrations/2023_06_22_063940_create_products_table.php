@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->integer('price');
             $table->foreignId('category_id');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->foreignId('owner_id');
             $table->integer('stock');
             $table->boolean('display');
