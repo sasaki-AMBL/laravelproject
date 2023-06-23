@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\User;
 
 class ECController extends Controller
 {
@@ -14,6 +16,11 @@ class ECController extends Controller
     public function index()
     {
         //
+        // $products = Product::pagenate(5);
+        // return view('user.index',compact('products'));
+
+        $products = Product::paginate(5);
+        return view('user.index',compact('products'));
     }
 
     /**
@@ -46,6 +53,8 @@ class ECController extends Controller
     public function show($id)
     {
         //
+        $products = Product::find($id);
+        return view('user.show',compact('products'));
     }
 
     /**

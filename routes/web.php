@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-//use App\Http\Controllers\ItemController;
+
+use App\Http\Controllers\ECController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +27,9 @@ Route::get('/dashboard', function () {
 
 
 require __DIR__.'/auth.php';
+
+Route::middleware('auth')->group(function(){
+
+Route::get('/',[ECController::class,'index']);
+Route::get('/{id}',[ECController::class,'show'])->name('user.show');
+});
