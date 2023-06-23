@@ -14,8 +14,12 @@
                     <li> <span class="error">{{ $error }}</span></li>
                     @endforeach
 
-                    <form action="{{ route('owner.store') }}" method="post">
+                    <form action="{{ route('owner.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
+                        <div>
+                            <label for="image">商品画像</label>
+                            <input id="image" type="file" name="image">
+                        </div>
                         <div>
                             <label for="name">商品名</label>
                             <input type="text" id="name" name="name" value="">

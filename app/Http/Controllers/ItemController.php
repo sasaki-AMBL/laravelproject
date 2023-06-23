@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 
 class ItemController extends Controller
@@ -44,9 +45,13 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
+        $file_path = $request->image->store('images', 'public');
+
+        /* UploadImage オブジェクトを生成 */
         Product::create([
             'name' => $request->name,
             'price' => $request->price,
+            'image' => $file_path,
             'category_id' => $request->category_id,
             'owner_id' => Auth::id(),
             'stock' => $request->stock,
