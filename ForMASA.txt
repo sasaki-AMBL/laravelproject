@@ -1,0 +1,96 @@
+model/owner.php
+ use Illuminate\Foundation\Auth\User as Authenticatable;
+ class Owner extends Authenticatable
+protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
+を追加
+
+owner.php作成
+require __DIR__.'/ownerAuth.php';
+追記
+
+ownerAuth.php作成
+
+RouteServiceProviderに
+   public const OWNER_HOME = 'owner/dashboard';
+   追加
+   boot()に
+               Route::middleware('web')
+                ->prefix('owner')
+                ->as('owner.')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/owner.php'));
+    追加
+
+Owner/Authフォルダ作成
+いままでのAuthフォルダの中身をコピーして
+namespaceを
+\Auth -> \Owner\Auth に変更
+
+route/OwnerAuth.php
+のuseを
+\Auth -> \Owner\Auth に変更
+
+config/auth.phpを設定
+
+app/Http/Middleware/Authenticate.phpを変更
+    protected function redirectTo($request)
+    {
+        if (! $request->expectsJson()) {
+            if(Route::is('owner.*')){
+                return route('owner.login');
+            } else {
+                return route('login');
+            }
+        }
+    }
+
+app/Http/Middleware/RedirectIfAuthenticated.phpを編集
+public function hubdleの戻り値指定にエラーが出たので、戻り値指定を削除
+    public function handle(Request $request, Closure $next, string ...$guards): //Response
+    {
+        $guards = empty($guards) ? [null] : $guards;
+
+        // foreach ($guards as $guard) {
+        //     if (Auth::guard($guard)->check()) {
+        //         return redirect(RouteServiceProvider::HOME);
+        //     }
+        // }
+
+        if(Auth::guard('users')->check() && $request->routeIs('user.*')){
+            return redirect(RouteServiceProvider::HOME);
+          }
+
+          if(Auth::guard('owners')->check() && $request->routeIs('owner.*')){
+            return redirect(RouteServiceProvider::OWNER_HOME);
+          }
+
+        return $next($request);
+    }
+
+app/Http/Requests/LoginRequest.phpを変更
+
+app/Http/Controllers/Owner/Auth を変更
+view('auth.login');  → view('owner.auth.login');
+
+RouteServiceProvider::HOME
+→ RouteServiceProvider::OWNER_HOME
+Auth::guard('web') → Auth::guard('owners')
+
+return redirect('/owner/login');
+
+RegisteredUserController を変更
+use App\Models\Owner;
+    public function create()
+    {
+        return view('owner.auth.register');
+    }
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:owners'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+                return redirect(RouteServiceProvider::OWNER_HOME);

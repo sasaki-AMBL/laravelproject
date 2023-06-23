@@ -21,8 +21,13 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+
+    public function boot(): void
     {
-        //
+        if (request()->is('owner*')) {
+            config(['session.cookie' => config('session.cookie_owner')]);
+        } else {
+            config(['session.cookie' => config('session.cookie')]);
+        }
     }
 }
