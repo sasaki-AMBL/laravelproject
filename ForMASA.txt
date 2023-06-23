@@ -1,0 +1,36 @@
+model/owner.php
+ use Illuminate\Foundation\Auth\User as Authenticatable;
+ class Owner extends Authenticatable
+protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
+を追加
+
+owner.php作成
+require __DIR__.'/ownerAuth.php';
+追記
+
+ownerAuth.php作成
+
+RouteServiceProviderに
+   public const OWNER_HOME = 'owner/dashboard';
+   追加
+   boot()に
+               Route::middleware('web')
+                ->prefix('owner')
+                ->as('owner.')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/owner.php'));
+    追加
+
+Owner/Authフォルダ作成
+いままでのAuthフォルダの中身をコピーして
+namespaceを
+\Auth -> \Owner\Auth に変更
+
+route/OwnerAuth.php
+のuseを
+\Auth -> \Owner\Auth に変更
+
