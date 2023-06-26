@@ -14,11 +14,11 @@
 
           </div>
           @foreach ($products as $product)
-            <a href="{{ route('owner.edit' ,$product->id) }}"> {{ $product->name }}</a><br>
+            <a href="{{ route('owner.item.edit' ,$product->id) }}"> {{ $product->name }}</a><br>
           @endforeach
 
           </div>
-          <a href="{{ route('owner.create') }}">新規商品登録</a>
+          <a href="{{ route('owner.item.create') }}">新規商品登録</a>
 
         </div>
     </div>
