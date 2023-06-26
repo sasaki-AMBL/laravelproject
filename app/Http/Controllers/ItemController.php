@@ -9,6 +9,7 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\ProductRequest;
 
 
 class ItemController extends Controller
@@ -43,7 +44,7 @@ class ItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         $file_path = $request->image->store('images', 'public');
 
@@ -93,11 +94,13 @@ class ItemController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $file_path = $request->image->store('images', 'public');
         $stock = Product::find($id);
         //$now = $stock->stock + $request->stock;
         //dd($stock->stock,$request->stock,$now);
         Product::where('id',$id)->update([
             'price' => $request->price,
+            'image' => $file_path,
             'stock' => $stock->stock + $request->stock,
             'display' => $request->display
         ]);

@@ -18,5 +18,9 @@ class Product extends Model
         'stock',
         'display'
     ];
-
+    public function users()
+    {
+        return $this->belingsToMany(User::class,'transaction')
+        ->withPivot('amount');
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Transaction;
 
 class ECController extends Controller
 {
@@ -42,6 +43,11 @@ class ECController extends Controller
     public function store(Request $request)
     {
         //
+        $user = User::find(Auth::id());
+        $products = Product::find($request->product_id);
+        $products->stock -= $request->amount;
+        $products->save();
+
     }
 
     /**
