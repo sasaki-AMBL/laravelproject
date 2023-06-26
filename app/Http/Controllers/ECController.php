@@ -44,9 +44,13 @@ class ECController extends Controller
      */
     public function store(Request $request)
     {
-        // $products = Product::find($request->)
+        $user = User::find(Auth::id());
+        $products = Product::find($request->product_id);
+        // dd($products);
+        $products->stock -= $request->amount;
+        $products->save();
 
-
+        return redirect('/');
     }
 
 
