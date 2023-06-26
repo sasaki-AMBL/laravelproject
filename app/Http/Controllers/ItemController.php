@@ -46,7 +46,11 @@ class ItemController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $file_path = $request->image->store('images', 'public');
+        if($request->has('image') ){
+            $file_path = $request->image->store('images', 'public');
+        }else{
+            $file_path = "";
+        }
         /* UploadImage オブジェクトを生成 */
         Product::create([
             'name' => $request->name,
@@ -93,8 +97,14 @@ class ItemController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $file_path = $request->image->store('images', 'public');
         $stock = Product::find($id);
+
+        if($request->has('image') ){
+            $file_path = $request->image->store('images', 'public');
+        }else{
+            $file_path = $stock->image;
+        }
+
         //$now = $stock->stock + $request->stock;
         //dd($stock->stock,$request->stock,$now);
         Product::where('id',$id)->update([

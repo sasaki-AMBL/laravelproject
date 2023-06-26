@@ -21,6 +21,7 @@
     @csrf
         数量:
         <input type="number" name="amount" min="0" max="{{ $products->stock}}">
+        <input type="hidden" name="product_id" value="{{$products->id}}">
         <button class="px-4 py-2 bg-blue-400 text-white" type="submit">購入</button>
     </form>
               </div>

@@ -14,7 +14,7 @@
                     <li> <span class="error">{{ $error }}</span></li>
                     @endforeach
 
-                    <form action="{{ route('owner.item.update', $product->id) }}" method="post">
+                    <form action="{{ route('owner.item.update', $product->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                         <div>
                             <label for="image">商品画像</label>
