@@ -14,7 +14,7 @@
                     <li> <span class="error">{{ $error }}</span></li>
                     @endforeach
 
-                    <form action="{{ route('owner.store') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('owner.item.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                         <div>
                             <label for="image">商品画像</label>

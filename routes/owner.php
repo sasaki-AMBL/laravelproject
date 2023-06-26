@@ -15,22 +15,20 @@ use App\Http\Controllers\ItemController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth:owners'])->name('dashboard');
 
-Route::middleware('auth:owners')
-->group(function() {
-    Route::get('/', [ItemController::class, 'index'])->name('index');
-    Route::get('/create', [ItemController::class, 'create'])->name('create');
-    Route::get('/{id}/edit', [ItemController::class, 'edit'])->name('edit');
-    Route::post('/{id}/', [ItemController::class, 'update'])->name('update');
-    Route::post('/', [ItemController::class, 'store'])->name('store');
-});
+Route::middleware('auth:owners')->name('item.')
+    ->group(function () {
+        Route::get('/index', [ItemController::class, 'index'])->name('index');
+        Route::get('/create', [ItemController::class, 'create'])->name('create');
+        Route::get('/{id}/edit', [ItemController::class, 'edit'])->name('edit');
+        Route::post('/{id}/', [ItemController::class, 'update'])->name('update');
+        Route::post('/index', [ItemController::class, 'store'])->name('store');
+    });
 
 
-require __DIR__.'/ownerAuth.php';
+require __DIR__ . '/ownerAuth.php';
