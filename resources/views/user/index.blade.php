@@ -9,7 +9,19 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    You're logged in!
+                    <form action="{{ route('user.index') }}" method="GET">
+                        <input type="search" name="search">
+                        <select name="category_id">
+                            <option selected></option>
+                            @foreach($categorys as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                        カテゴリー選択
+                        <input type="radio" name="sort" value="asc" checked>昇順
+                        <input type="radio" name="sort" value="desc">降順
+                        <input type="submit" name="submit" value="検索">
+                    </form>
                 </div>
                 @foreach($products as $product)
                      <td><a href="{{ route('user.show',['id'=>$product->category_id])}}"
