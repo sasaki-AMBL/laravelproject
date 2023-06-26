@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Transaction;
+use Illuminate\Support\Facades\Auth;
+
 
 class ECController extends Controller
 {
@@ -21,7 +23,7 @@ class ECController extends Controller
         // return view('user.index',compact('products'));
 
         $products = Product::paginate(5);
-        return view('user.index',compact('products'));
+        return view('user.index', compact('products'));
     }
 
     /**
@@ -45,6 +47,7 @@ class ECController extends Controller
         //
         $user = User::find(Auth::id());
         $products = Product::find($request->product_id);
+
         $products->stock -= $request->amount;
         $products->save();
 
@@ -58,9 +61,14 @@ class ECController extends Controller
      */
     public function show($id)
     {
-        //
+
         $products = Product::find($id);
-        return view('user.show',compact('products'));
+        // url直打ち対策　
+        if (is_null($products) || $products->display === 0) {
+            return redirect()->route('user.index');
+        }
+
+        return view('user.show', compact('products'));
     }
 
     /**
