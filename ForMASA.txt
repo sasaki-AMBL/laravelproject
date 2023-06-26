@@ -94,3 +94,18 @@ use App\Models\Owner;
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
                 return redirect(RouteServiceProvider::OWNER_HOME);
+
+AuthenticatedSessionController変更
+
+route.web route/owner変更
+middleware(
+)
+
+views/owner作成
+
+owner-navigations作成
+
+config/session.php追記
+
+AppServiceProvider追記
+

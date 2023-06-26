@@ -59,7 +59,7 @@ class ItemController extends Controller
             'display' => $request->display
         ]);
 
-        return redirect('owner');
+        return redirect('owner.item.index');
     }
 
     /**
@@ -99,14 +99,13 @@ class ItemController extends Controller
         //$now = $stock->stock + $request->stock;
         //dd($stock->stock,$request->stock,$now);
         Product::where('id',$id)->update([
-            'name' => $request->name,
             'price' => $request->price,
             'image' => $file_path,
             'stock' => $stock->stock + $request->stock,
             'display' => $request->display
         ]);
 
-        return redirect('owner');
+        return redirect('owner.item');
     }
 
     /**
