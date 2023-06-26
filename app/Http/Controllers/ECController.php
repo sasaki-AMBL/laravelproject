@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
+use Exception;
 
 class ECController extends Controller
 {
@@ -47,6 +48,7 @@ class ECController extends Controller
 
         //$products->paginate(5);
         return view('user.index',compact('products','categorys'));
+
     }
 
     /**
@@ -67,13 +69,25 @@ class ECController extends Controller
      */
     public function store(Request $request)
     {
+
         $user = User::find(Auth::id());
         $products = Product::find($request->product_id);
-        // dd($products);
-        $products->stock -= $request->amount;
-        $products->save();
 
-        return redirect('/');
+        // url直打ち対策　
+        if (is_null($products) || $products->display === 0) {
+            return redirect()->route('user.index');
+        }
+
+        //異常な数値を送信された場合用
+        DB::beginTransaction();
+        try {
+            $products->stock -= $request->amount;
+            $products->save();
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+        }
+        return redirect()->route('user.index');
     }
 
 
@@ -85,9 +99,14 @@ class ECController extends Controller
      */
     public function show($id)
     {
-        //
+
         $products = Product::find($id);
-        return view('user.show',compact('products'));
+        // url直打ち対策　
+        if (is_null($products) || $products->display === 0) {
+            return redirect()->route('user.index');
+        }
+
+        return view('user.show', compact('products'));
     }
 
     /**
