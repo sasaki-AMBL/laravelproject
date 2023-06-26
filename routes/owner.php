@@ -21,7 +21,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth:owners'])->name('dashboard');
 
-Route::middleware('auth:owners')->name('item.')
+Route::middleware('auth:owners')->name('item.')->prefix('items')
     ->group(function () {
         Route::get('/index', [ItemController::class, 'index'])->name('index');
         Route::get('/create', [ItemController::class, 'create'])->name('create');
