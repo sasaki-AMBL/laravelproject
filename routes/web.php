@@ -30,7 +30,7 @@ require __DIR__.'/auth.php';
 
 Route::middleware('auth')->group(function(){
 
-Route::get('/',[ECController::class,'index']);
+Route::get('/',[ECController::class,'index'])->name('user.index');
 Route::get('/{id}',[ECController::class,'show'])->name('user.show');
 Route::post('/',[ECController::class, 'store'])->name('user.store');
 });

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Category;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
 
@@ -16,14 +17,36 @@ class ECController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
         // $products = Product::pagenate(5);
         // return view('user.index',compact('products'));
 
+        $categorys = Category::all();
+
+        // if($request->category != ""){
+        //     $products = Product::where('category_id',"$request->category_id")->paginate(5);
+        // }else{
+        //     $products = Product::paginate(5);
+        //     //$products = Product::all();
+        // }
+
+        //$products = DB::table('products');
         $products = Product::paginate(5);
-        return view('user.index',compact('products'));
+        //$products = Product::select('*');
+
+        if($request->search != ""){
+            $products->where('name','LIKE',"%$request->search%");
+        }
+        if($request->category_id != ""){
+            $products->where('category_id',"$request->category_id");
+        }
+        if($request->sort == "desc"){
+            $products->orderByDesc('id');
+        }
+
+        //$products->paginate(5);
+        return view('user.index',compact('products','categorys'));
     }
 
     /**
