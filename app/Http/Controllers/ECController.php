@@ -21,7 +21,7 @@ class ECController extends Controller
         //
         // $products = Product::pagenate(5);
         // return view('user.index',compact('products'));
-
+        // $user = User::find(Auth::id());
         $products = Product::paginate(5);
         return view('user.index',compact('products'));
     }
@@ -73,6 +73,16 @@ class ECController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function history(){
+        $user=User::find(Auth::id());
+        $transactions=$user->transactions();
+        return view('user.history',compact('user','transactions'));
+
+    }
+
+
+
     public function edit($id)
     {
         //

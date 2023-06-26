@@ -16,6 +16,7 @@
                         class="btn btn-primary"> {{ $product->name }}</a></td>
                       <br><br>
                     @endforeach
+                    <td><a href="{{ route('user.history')}}">履歴</a></td>
             </div>
         </div>
         {!! $products->links() !!}
