@@ -47,7 +47,6 @@ class ItemController extends Controller
     public function store(ProductRequest $request)
     {
         $file_path = $request->image->store('images', 'public');
-
         /* UploadImage オブジェクトを生成 */
         Product::create([
             'name' => $request->name,
@@ -59,7 +58,7 @@ class ItemController extends Controller
             'display' => $request->display
         ]);
 
-        return redirect('owner.item.index');
+        return redirect('owner/item/index');
     }
 
     /**
@@ -105,7 +104,7 @@ class ItemController extends Controller
             'display' => $request->display
         ]);
 
-        return redirect('owner.item');
+        return redirect('owner/item/index');
     }
 
     /**

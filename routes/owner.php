@@ -21,13 +21,14 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth:owners'])->name('dashboard');
 
-Route::middleware('auth:owners')->name('item.')->prefix('items')
+Route::middleware('auth:owners')->name('item.')->prefix('item')
     ->group(function () {
         Route::get('/index', [ItemController::class, 'index'])->name('index');
         Route::get('/create', [ItemController::class, 'create'])->name('create');
-        Route::get('/{id}/edit', [ItemController::class, 'edit'])->name('edit');
-        Route::post('/{id}/', [ItemController::class, 'update'])->name('update');
         Route::post('/index', [ItemController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [ItemController::class, 'edit'])->name('edit');
+        Route::post('/{id}', [ItemController::class, 'update'])->name('update');
+
     });
 
 
