@@ -21,7 +21,7 @@ class ProductFactory extends Factory
             'stock' => $this->faker->numberBetween($min = 1,$max = 10000),
             'display' => $this->faker->numberBetween($min = 0,$max = 1),
             'created_at' => $this->faker->dateTimeBetween('-5 years','-1 years'),
-            'updated_at' => $this->faker->dateTimeBetween('-5 years','-1years'),
+            'updated_at' => $this->faker->dateTimeBetween('-5 years','-1 years'),
 
         ];
     }
