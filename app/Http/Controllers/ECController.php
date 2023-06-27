@@ -25,28 +25,21 @@ class ECController extends Controller
 
         $categorys = Category::all();
 
-        // if($request->category != ""){
-        //     $products = Product::where('category_id',"$request->category_id")->paginate(5);
-        // }else{
-        //     $products = Product::paginate(5);
-        //     //$products = Product::all();
-        // }
 
-        //$products = DB::table('products');
-        $products = Product::paginate(5);
-        //$products = Product::select('*');
+        $products = Product::query();
 
         if($request->search != ""){
-            $products->where('name','LIKE',"%$request->search%");
+            $products = $products->where('name','LIKE',"%$request->search%");
         }
         if($request->category_id != ""){
-            $products->where('category_id',"$request->category_id");
+            $products = $products->where('category_id',"$request->category_id");
         }
         if($request->sort == "desc"){
-            $products->orderByDesc('id');
+            $products = $products->orderByDesc('id');
         }
 
-        //$products->paginate(5);
+        $products = $products->paginate(5);
+        //dd($products);
         return view('user.index',compact('products','categorys'));
 
     }
