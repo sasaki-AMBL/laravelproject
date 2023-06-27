@@ -30,6 +30,7 @@
                     @endforeach
             </div>
         </div>
-        {!! $products->links() !!}
+        {{--!! $products->links() !!--}}
+        {{ $products->appends(request()->query())->links() }}
     </div>
 </x-app-layout>
