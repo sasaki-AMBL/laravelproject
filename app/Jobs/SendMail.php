@@ -24,7 +24,6 @@ class SendMail implements ShouldQueue
     public function __construct()
     {
         //
-        Mail::to('test@example.com')->send(new ContactMail());
     }
 
     /**
@@ -35,5 +34,7 @@ class SendMail implements ShouldQueue
     public function handle()
     {
         //
+        Mail::to('test@example.com')->send(new ContactMail());
+
     }
 }
