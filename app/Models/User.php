@@ -24,11 +24,16 @@ class User extends Authenticatable
     ];
 
 
+    // public function transactions(){
+    //     return $this->hasMany(Transaction::class);
+    // }
+
     public function products(){
-        return $this->belongsToMany(Product::class,
-        'transaction')->withPivot('price', 'amount',
-        'created_at');
-        }
+        return $this->belongsToMany(Product::class, 'transactions')
+        ->withPivot('amount');
+    }
+
+
 
 
     /**
