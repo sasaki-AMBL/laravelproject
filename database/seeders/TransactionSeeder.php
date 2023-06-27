@@ -20,11 +20,13 @@ class TransactionSeeder extends Seeder
                 'user_id' => '1',
                 'product_id' => '1',
                 'amount' => '1',
+                'price' => 1000,
             ],
             [
                 'user_id' => '2',
                 'product_id' => '6',
                 'amount' => '2',
+                'price' => 10000,
             ],
 
         ]);
