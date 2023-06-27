@@ -75,8 +75,12 @@ class ECController extends Controller
      */
 
     public function history(){
-        $user=User::find(Auth::id());
-        $transactions=$user->transactions();
+        $user=User::find(Auth::id()); //ここで$userはユーザーの検索結果
+
+        //transactions()はuserのモデルにリレーションを書いたメソッドであり、
+        //$user->transactions()でユーザーテーブルとトランザクションテーブルが連結
+        //連結した後に通常where()などで絞り込んで最後にget()すると複数のレコードが入ったコレクションが返される
+        $transactions=$user->transactions()->get();
         return view('user.history',compact('user','transactions'));
 
     }

@@ -12,8 +12,9 @@
                 <div class="mb-8">
                     </div>
                     <br><br>
+
                     @foreach($transactions as $transaction)
-                      購入日: {{ $transaction->transactions->created_at }}
+                      {{-- 購入日: {{ $transaction->transactions->created_at }} --}}
                       商品名: {{ $transaction->name }}
                       購入時の価格: {{ $transaction->price }}
                       購入数: {{ $transaction->amount }}
