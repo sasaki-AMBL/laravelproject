@@ -24,7 +24,7 @@
                     </form>
                 </div>
                 @foreach($products as $product)
-                     <td><a href="{{ route('user.show',['id'=>$product->category_id])}}"
+                     <td><a href="{{ route('user.show',['id'=>$product->id])}}"
                         class="btn btn-primary"> {{ $product->name }}</a></td>
                       <br><br>
                     @endforeach

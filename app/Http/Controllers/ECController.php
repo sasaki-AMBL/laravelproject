@@ -31,7 +31,7 @@ class ECController extends Controller
 
 
         $products = Product::query();
-
+        $products->where('display','!=',0);
         if($request->search != ""){
             $products = $products->where('name','LIKE',"%$request->search%");
         }
@@ -78,13 +78,16 @@ class ECController extends Controller
         //異常な数値を送信された場合用
         DB::beginTransaction();
         try {
+
             $products->stock -= $request->amount;
             $products->save();
+
             $user = User::find(Auth::id());
             $user->products()->attach($request->product_id,[
                 'amount'=>$request->amount,
                 'created_at'=>new Carbon('now'),
             ]);
+
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
