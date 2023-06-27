@@ -25,9 +25,13 @@ Route::middleware('auth:owners')->name('item.')->prefix('item')
     ->group(function () {
         Route::get('/index', [ItemController::class, 'index'])->name('index');
         Route::get('/create', [ItemController::class, 'create'])->name('create');
+        Route::get('/chartjs', [ItemController::class, 'chartjs'])->name('chartjs');
         Route::post('/index', [ItemController::class, 'store'])->name('store');
+        Route::get('/chart-get', [ItemController::class, 'chartGet'])->name('chart-get');
+
         Route::get('/{id}/edit', [ItemController::class, 'edit'])->name('edit');
         Route::post('/{id}', [ItemController::class, 'update'])->name('update');
+
 
     });
 
