@@ -21,6 +21,6 @@ class Product extends Model
     public function users()
     {
         return $this->belingsToMany(User::class,'transaction')
-        ->withPivot('amount');
+        ->withPivot('amount','price','created_at');
     }
 }

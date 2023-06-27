@@ -31,20 +31,20 @@ class ECController extends Controller
 
 
         $products = Product::query();
-        $products->where('display','!=',0);
-        if($request->search != ""){
-            $products = $products->where('name','LIKE',"%$request->search%");
+        $products->where('display', '!=', 0);
+        if ($request->search != "") {
+            $products = $products->where('name', 'LIKE', "%$request->search%");
         }
-        if($request->category_id != ""){
-            $products = $products->where('category_id',"$request->category_id");
+        if ($request->category_id != "") {
+            $products = $products->where('category_id', "$request->category_id");
         }
-        if($request->sort == "desc"){
+        if ($request->sort == "desc") {
             $products = $products->orderByDesc('id');
         }
 
         $products = $products->paginate(5);
         //dd($products);
-        return view('user.index',compact('products','categorys'));
+        return view('user.index', compact('products', 'categorys'));
 
     }
 
@@ -71,20 +71,19 @@ class ECController extends Controller
         $products = Product::find($request->product_id);
 
         // url直打ち対策　
-        if (is_null($products) || $products->display === 0) {
+        if (is_null($products) || $products->display == 0) {
             return redirect()->route('user.index');
         }
         //異常な数値を送信された場合用
         DB::beginTransaction();
-        try {
 
+        try {
             $products->stock -= $request->amount;
             $products->save();
-
-            $user = User::find(Auth::id());
-            $user->products()->attach($request->product_id,[
-                'amount'=>$request->amount,
-                'created_at'=>new Carbon('now'),
+            $user->products()->attach($request->product_id, [
+                'amount' => $request->amount,
+                'price' => $user->products->where('id', "$request->product_id")->first()->price,
+                'created_at' => new Carbon('now'),
             ]);
 
             DB::commit();
@@ -97,7 +96,7 @@ class ECController extends Controller
         //     'amount'=>$request->amount
         // ]);
 
-        SendMail::dispatch();
+
 
         return redirect()->route('user.index');
     }
@@ -128,9 +127,10 @@ class ECController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function history(){
-        $user=User::find(Auth::id());
-        return view('user.history',compact('user'));
+    public function history()
+    {
+        $user = User::find(Auth::id());
+        return view('user.history', compact('user'));
 
     }
 
