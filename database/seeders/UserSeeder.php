@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-
+use App\Models\User;
 
 class UserSeeder extends Seeder
 {
@@ -16,6 +16,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        $user = User::factory(500)->create();
         //
         DB::table('users')->insert([
             [

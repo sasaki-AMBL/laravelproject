@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\Product;
 
 class ProductSeeder extends Seeder
 {
@@ -15,6 +16,8 @@ class ProductSeeder extends Seeder
     public function run()
     {
         //
+        Product::factory(500)->create();
+
         DB::table('products')->insert([
             ['name'=>'ハリーポッターと賢者の石',
              'price'=>'1000',
