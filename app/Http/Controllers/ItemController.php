@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Owner;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
@@ -46,9 +47,19 @@ class ItemController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        if($request->has('image') ){
+        $validated = $request->validate([
+            'image'=>'image',
+            'name' => 'required',
+            'price' => 'required',
+            'category_id' => 'required',
+            'stock' => 'required',
+            'display' => 'required'
+        ]);
+
+
+        if ($request->has('image')) {
             $file_path = $request->image->store('images', 'public');
-        }else{
+        } else {
             $file_path = "";
         }
         /* UploadImage オブジェクトを生成 */
@@ -85,6 +96,12 @@ class ItemController extends Controller
     public function edit($id)
     {
         $product = Product::find($id);
+
+        // url直打ち対策
+        if (is_null($product) || $product->owner_id != Owner::find(Auth::id())->id) {
+            return redirect()->route('owner.item.index');
+        }
+
         return view('owner.edit', compact('product'));
     }
 
@@ -97,17 +114,27 @@ class ItemController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $stock = Product::find($id);
+        //validationだが効果不明
+        $validated = $request->validate([
+            // 'price' => 'integer', =>'string'でも引っかからない
+            'image'=>'image',
+        ]);
 
-        if($request->has('image') ){
+        $stock = Product::find($id);
+        // url直打ち対策
+        if (is_null($stock) || $stock->owner_id != Owner::find(Auth::id())->id) {
+            return redirect()->route('owner.item.index');
+        }
+
+        if ($request->has('image')) {
             $file_path = $request->image->store('images', 'public');
-        }else{
+        } else {
             $file_path = $stock->image;
         }
 
         //$now = $stock->stock + $request->stock;
         //dd($stock->stock,$request->stock,$now);
-        Product::where('id',$id)->update([
+        Product::where('id', $id)->update([
             'price' => $request->price,
             'image' => $file_path,
             'stock' => $stock->stock + $request->stock,
