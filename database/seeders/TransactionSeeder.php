@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\Transaction;
 
 class TransactionSeeder extends Seeder
 {
@@ -15,6 +16,8 @@ class TransactionSeeder extends Seeder
     public function run()
     {
         //
+        Transaction::factory(1000)->create();
+
         DB::table('transactions')->insert([
             [
                 'user_id' => '1',
