@@ -29,6 +29,6 @@ class ContactMail extends Mailable
     public function build()
     {
         return $this->subject('test')
-        ->view('email.contact');
+        ->view('user.email.contact');
     }
 }

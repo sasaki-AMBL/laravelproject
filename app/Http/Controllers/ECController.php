@@ -95,6 +95,7 @@ class ECController extends Controller
         //     'amount'=>$request->amount
         // ]);
 
+        SendMail::dispatch();
 
         return redirect()->route('user.index');
     }
