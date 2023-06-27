@@ -48,7 +48,7 @@ class ItemController extends Controller
     public function store(ProductRequest $request)
     {
         $validated = $request->validate([
-            'image'=>'image',
+            'image' => 'image',
             'name' => 'required',
             'price' => 'required',
             'category_id' => 'required',
@@ -117,7 +117,7 @@ class ItemController extends Controller
         //validationだが効果不明
         $validated = $request->validate([
             // 'price' => 'integer', =>'string'でも引っかからない
-            'image'=>'image',
+            'image' => 'image',
         ]);
 
         $stock = Product::find($id);
@@ -153,5 +153,20 @@ class ItemController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function chartjs()
+    {
+        return view('chartjs');
+    }
+
+    public function chartGet()
+    {
+        //transactionテーブルからカテゴリごとのprice*amountを連想配列として欲しい
+        $user = User::find(Auth::id());
+
+
+        // 固定データを返却。DBからデータを取得すると良い
+        return [12, 19, 31, 25, 2, 26, 87];
     }
 }
