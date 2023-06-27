@@ -10,6 +10,10 @@ use App\Models\Category;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
 use Exception;
+use Carbon\Carbon;
+use App\Mail\ContactMail;
+use Illuminate\Support\Facades\Mail;
+use App\Jobs\SendMail;
 
 class ECController extends Controller
 {
@@ -77,10 +81,24 @@ class ECController extends Controller
             $products->stock -= $request->amount;
             $products->save();
 
+            $user = User::find(Auth::id());
+            $user->products()->attach($request->product_id,[
+                'amount'=>$request->amount,
+                'created_at'=>new Carbon('now'),
+            ]);
+
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
         }
+        // Transaction::create([
+        //     'user_id'=>$user->id,
+        //     'product_id'=>$request->product_id,
+        //     'amount'=>$request->amount
+        // ]);
+
+        SendMail::dispatch();
+
         return redirect()->route('user.index');
     }
 
