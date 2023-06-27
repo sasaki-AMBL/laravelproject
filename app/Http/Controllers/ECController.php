@@ -11,6 +11,9 @@ use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use Carbon\Carbon;
+use App\Mail\ContactMail;
+use Illuminate\Support\Facades\Mail;
+use App\Jobs\SendMail;
 
 class ECController extends Controller
 {
@@ -95,6 +98,7 @@ class ECController extends Controller
         //     'amount'=>$request->amount
         // ]);
 
+        SendMail::dispatch();
 
         return redirect()->route('user.index');
     }
