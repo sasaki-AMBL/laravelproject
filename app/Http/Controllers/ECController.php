@@ -70,7 +70,6 @@ class ECController extends Controller
         if (is_null($products) || $products->display === 0) {
             return redirect()->route('user.index');
         }
-
         //異常な数値を送信された場合用
         DB::beginTransaction();
         try {
