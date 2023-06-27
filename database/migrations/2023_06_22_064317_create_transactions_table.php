@@ -18,6 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->foreignId('user_id');
             $table->foreignId('product_id');
             $table->integer('amount');
+            $table->integer('price');
             $table->timestamps();
         });
     }
