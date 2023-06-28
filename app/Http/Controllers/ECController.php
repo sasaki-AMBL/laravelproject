@@ -89,14 +89,15 @@ class ECController extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
+
+            SendMail::dispatch();
+
         }
         // Transaction::create([
         //     'user_id'=>$user->id,
         //     'product_id'=>$request->product_id,
         //     'amount'=>$request->amount
         // ]);
-
-
 
         return redirect()->route('user.index');
     }
