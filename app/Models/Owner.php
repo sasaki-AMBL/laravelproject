@@ -13,6 +13,14 @@ class Owner extends Authenticatable
     {
         return $this->hasMany(Product::class);
     }
+
+    public function products2(){
+        return $this->belongsToMany(Product::class, 'transactions')
+        ->withPivot('amount','price','created_at');
+    }
+
+
+
     protected $fillable = [
         'name',
         'email',
