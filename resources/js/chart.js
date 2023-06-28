@@ -35,10 +35,13 @@ const myChart = new Chart(ctx, {
 });
 
 axios
-    .get("/owner/item/chart-get")
+    .post("/owner/item/chart-get", { year: this.year })
+    //.get("/owner/item/chart-get")
     .then((response) => {
         // Chartの更新
-        myChart.data.datasets[0].data = response.data;
+        myChart.data.labels = response.data[1];
+        myChart.data.datasets[0].data = response.data[0];
+        alert(response.data[2]);
         myChart.update();
     })
     .catch(() => {

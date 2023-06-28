@@ -20,7 +20,20 @@ class Product extends Model
     ];
     public function users()
     {
-        return $this->belingsToMany(User::class,'transaction')
+        return $this->belongsToMany(User::class,'transaction')
         ->withPivot('amount','price','created_at');
     }
+
+    public function owners()
+    {
+        return $this->belongsTo(Owner::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+
+
 }

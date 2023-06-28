@@ -5267,9 +5267,15 @@ var myChart = new chart_js_auto__WEBPACK_IMPORTED_MODULE_0__["default"](ctx, {
     }
   }
 });
-axios.get("/owner/item/chart-get").then(function (response) {
+axios.post("/owner/item/chart-get", {
+  year: undefined.year
+})
+//.get("/owner/item/chart-get")
+.then(function (response) {
   // Chartの更新
-  myChart.data.datasets[0].data = response.data;
+  myChart.data.labels = response.data[1];
+  myChart.data.datasets[0].data = response.data[0];
+  alert(response.data[2]);
   myChart.update();
 })["catch"](function () {
   alert("失敗しました");
