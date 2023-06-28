@@ -78,27 +78,20 @@ class ECController extends Controller
         DB::beginTransaction();
 
         try {
+
             $products->stock -= $request->amount;
             $products->save();
             $user->products()->attach($request->product_id, [
                 'amount' => $request->amount,
-                'price' => $user->products->where('id', "$request->product_id")->first()->price,
+                'price' => $products->where('id', "$request->product_id")->first()->price,
                 'created_at' => new Carbon('now'),
             ]);
 
             DB::commit();
+            SendMail::dispatch($user,$products);
         } catch (Exception $e) {
             DB::rollback();
-
-            SendMail::dispatch();
-
         }
-        // Transaction::create([
-        //     'user_id'=>$user->id,
-        //     'product_id'=>$request->product_id,
-        //     'amount'=>$request->amount
-        // ]);
-
         return redirect()->route('user.index');
     }
 
