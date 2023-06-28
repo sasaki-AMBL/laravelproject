@@ -7,6 +7,7 @@
             <option value="2021">2021</option>
         </select>
         <input type="submit">選択
+        <el-button v-on:click.once="onPost" type="info" plain>ボタン</el-button>
     </form>
     <div>
         <canvas id="myChart"></canvas>

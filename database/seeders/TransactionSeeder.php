@@ -15,8 +15,10 @@ class TransactionSeeder extends Seeder
      */
     public function run()
     {
-        //
-        Transaction::factory(1000)->create();
+
+        for($i = 1;$i<=100;$i++){
+                Transaction::factory(5)->create(['user_id'=>$i]);
+            }
 
         DB::table('transactions')->insert([
             [
