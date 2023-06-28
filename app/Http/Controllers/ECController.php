@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Owner;
 use App\Models\Category;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +15,8 @@ use Carbon\Carbon;
 use App\Mail\ContactMail;
 use Illuminate\Support\Facades\Mail;
 use App\Jobs\SendMail;
+use App\Jobs\OwnerMailJob;
+
 
 class ECController extends Controller
 {
@@ -90,6 +93,11 @@ class ECController extends Controller
             DB::commit();
 
             SendMail::dispatch($user,$products,$user->products()->orderByPivot('id','desc')->first()->pivot->amount);
+            $owner_email=Owner::find($user->products()->orderByPivot('id','desc')->first()->owner_id)->email;
+            $product_name = $user->products()->orderByPivot('id','desc')->first()->name;
+            $amount=$user->products()->orderByPivot('id','desc')->first()->pivot->amount;
+            OwnerMailJob::dispatch($owner_email,$product_name,$amount);
+
         } catch (Exception $e) {
             DB::rollback();
         }
