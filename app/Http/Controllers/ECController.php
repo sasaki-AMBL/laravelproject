@@ -88,7 +88,8 @@ class ECController extends Controller
             ]);
 
             DB::commit();
-            SendMail::dispatch($user,$products);
+
+            SendMail::dispatch($user,$products,$user->products()->orderByPivot('id','desc')->first()->pivot->amount);
         } catch (Exception $e) {
             DB::rollback();
         }
