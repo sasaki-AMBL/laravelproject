@@ -21,9 +21,15 @@ class SendMail implements ShouldQueue
      *
      * @return void
      */
-    public function __construct()
+    public $user;
+    public $products;
+
+    public $amount;
+    public function __construct($user,$products,$amount)
     {
-        //
+        $this->user = $user;
+        $this->products = $products;
+        $this->amount = $amount;
     }
 
     /**
@@ -33,8 +39,8 @@ class SendMail implements ShouldQueue
      */
     public function handle()
     {
-        //
-        Mail::to('test@example.com')->send(new ContactMail());
+
+        Mail::to($this->user->email)->send(new ContactMail($this->user,$this->products,$this->amount));
 
     }
 }

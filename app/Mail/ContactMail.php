@@ -16,9 +16,14 @@ class ContactMail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public $user;
+    public $products;
+    public $amount;
+    public function __construct($user,$products,$amount)
     {
-        //
+        $this->user = $user;
+        $this->products=$products;
+        $this->amount = $amount;
     }
 
     /**
@@ -28,7 +33,8 @@ class ContactMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('test')
+        return $this->subject($this->user->name)
+
         ->view('user.email.contact');
     }
 }
