@@ -16,7 +16,7 @@ class ProductSeeder extends Seeder
     public function run()
     {
         //
-        Product::factory(500)->create();
+         Product::factory(500)->create();
 
         DB::table('products')->insert([
             ['name'=>'ハリーポッターと賢者の石',

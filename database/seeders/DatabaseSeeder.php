@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             OwnerSeeder::class,
             ProductSeeder::class,
-            TransactionSeeder::class,
             UserSeeder::class,
+            TransactionSeeder::class,
         ]);
     }
 }
