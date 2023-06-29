@@ -156,30 +156,52 @@ class ItemController extends Controller
         //
     }
 
-    public function chartjs()
+    public function chartjs(Request $request)
     {
-        return view('chartjs');
+        //transactionテーブルからカテゴリごとのprice*amountを連想配列として欲しい
+        $user = Owner::find(Auth::id());
+
+        $transactions = Product::query();
+
+        $year = $request->year;
+
+        if($year != ""){
+            $transactions = $transactions->whereYear('transactions.created_at', $year);
+            $year = $year . '年度';
+        }else{
+            $year = "全年度";
+        }
+        $transactions = $transactions->join('transactions','products.id','=','transactions.product_id')
+                                        ->selectRaw('products.id,products.name,
+                                        SUM(transactions.price) as price,
+                                        SUM(transactions.amount) as amount,
+                                        SUM(transactions.price * transactions.amount) as earnings')
+                                        ->Where('products.owner_id',Auth::id())
+                                        ->groupByRaw('products.id,products.name')
+                                        ->get()->toArray();
+
+        //連想配列のキーを指定して配列に格納しなおす
+        $name_list = array_column($transactions,'name');
+        $earnings_list = array_column($transactions,'earnings');
+        $sum = array_sum($earnings_list);
+        $sum = number_format($sum). "円";
+
+       // return array($earnings_list,$name_list,$year);
+
+       //dd($transactions,$year,$name_list,$earnings_list);
+        return view('chartjs',compact('year','name_list','earnings_list','sum'));
     }
 
     public function chartGet(Request $request)
     {
         //transactionテーブルからカテゴリごとのprice*amountを連想配列として欲しい
         $user = Owner::find(Auth::id());
-        $product = Product::find(Auth::id());
-        //$product = Product::find(Auth::id());
 
         $transactions = Product::query();
 
         $year = $request->input('year');
-        //$year = 2022;
 
         $transactions = $transactions->whereYear('transactions.created_at', $year);
-        //dd($year);
-
-        //$transactions = $user->products()->withPivot('amount')->get()->toArray();
-        //$transactions = $user->products()->toSql();
-        //$transactions = $user->products2()->get()->toArray();
-        //$transactions = $product->transactions()->toSql();
         $transactions = $transactions->join('transactions','products.id','=','transactions.product_id')
                                      ->selectRaw('products.id,products.name,
                                      SUM(transactions.price) as price,
@@ -189,21 +211,9 @@ class ItemController extends Controller
                                      ->groupByRaw('products.id,products.name')
                                      ->get()->toArray();
 
-        //dd($transactions);
-
-        //$products = Product::where('owner_id',Auth::id())->get()->toArray();
-
         //連想配列のキーを指定して配列に格納しなおす
         $name_list = array_column($transactions,'name');
         $earnings_list = array_column($transactions,'earnings');
-        //dd($name_list,$earnings_list);
-
-        //$num = [12, 19, 31, 25, 2, 26, 87];
-        //$lavel = ['A','B','C','D','E','F','G'];
-
-
-        // 固定データを返却。DBからデータを取得すると良い
-        //return [12, 19, 31, 25, 2, 26, 87];
 
         return array($earnings_list,$name_list,$year);
     }
