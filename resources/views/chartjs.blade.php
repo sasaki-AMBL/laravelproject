@@ -24,6 +24,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 <!-- npm installしたけれどうまく認識されず.. cdnで暫定対応 -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

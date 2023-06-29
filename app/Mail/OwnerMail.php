@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ContactMail extends Mailable
+class OwnerMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -16,14 +16,15 @@ class ContactMail extends Mailable
      *
      * @return void
      */
-    public $user;
-    public $products;
+    public $product_name;
     public $amount;
-    public function __construct($user,$products,$amount)
+
+    public function __construct($product_name,$amount)
     {
-        $this->user = $user;
-        $this->products=$products;
-        $this->amount = $amount;
+        //
+        $this->product_name=$product_name;
+        $this->amount=$amount;
+
     }
 
     /**
@@ -33,8 +34,7 @@ class ContactMail extends Mailable
      */
     public function build()
     {
-        return $this->subject($this->user->name)
-
-        ->view('user.email.contact');
+        return $this->subject('購入通知')
+        ->view('owner.email.contact');
     }
 }

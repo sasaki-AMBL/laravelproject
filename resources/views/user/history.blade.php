@@ -21,6 +21,7 @@
                         <br><br>
                     @endforeach
                 </div>
+                <button type="button" onClick="history.back()">戻る</button>
             </div>
         </div>
     </div>

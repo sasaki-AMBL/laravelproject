@@ -8,11 +8,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\Mail\ContactMail;
+use App\Mail\OwnerMail;
 use Illuminate\Support\Facades\Mail;
 
 
-class SendMail implements ShouldQueue
+class OwnerMailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -21,15 +21,16 @@ class SendMail implements ShouldQueue
      *
      * @return void
      */
-    public $user;
-    public $products;
+    public $owner_email;
+    public $product_name;
     public $amount;
 
-    public function __construct($user,$products,$amount)
+    public function __construct($owner_email,$product_name,$amount)
     {
-        $this->user = $user;
-        $this->products = $products;
-        $this->amount = $amount;
+        //
+        $this->owner_email=$owner_email;
+        $this->product_name=$product_name;
+        $this->amount=$amount;
     }
 
     /**
@@ -39,8 +40,8 @@ class SendMail implements ShouldQueue
      */
     public function handle()
     {
-
-        Mail::to($this->user->email)->send(new ContactMail($this->user,$this->products,$this->amount));
+        //
+        Mail::to($this->owner_email)->send(new OwnerMail($this->product_name,$this->amount));
 
     }
 }
